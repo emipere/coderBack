@@ -43,10 +43,10 @@ cartRouter.post("/:cid/products/:pid", async (req, res) => {
     const indice = carrito.products.findIndex((prod) => prod.id == idProducto);
 
     if (indice != -1) {
-      //Si el producto existe, piso con la nueva cantidad
+      
       carrito.products[indice].quantity = quantity;
     } else {
-      //Si el producto no existe, lo creo y lo guardo
+    
       carrito.products.push({ id: idProducto, quantity: quantity });
     }
     await fs.writeFile(carritosPath, JSON.stringify(carritos));
