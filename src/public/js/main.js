@@ -27,7 +27,7 @@ chatBox.addEventListener('change', (e) => {
 
 })
 
-socket.on('mensajeLogs', info => {
+socket.on('respuesta', info => {
     messageLogs.innerHTML = ""
     info.forEach(mensaje => {
         messageLogs.innerHTML += `<p>${mensaje.hora}hs. Usuario ${mensaje.usuario} dice: ${mensaje.mensaje}</p>`
