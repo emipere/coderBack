@@ -12,7 +12,7 @@ const productos = JSON.parse(productosData);
 productRouter.get("/", (req, res) => {
   const { limit } = req.query;
   const products = productos.slice(0, limit);
-  res.status(200).send(products);
+  res.status(200).render('templates/home', {productos: products, js: 'productos.js', css: 'productos.css'});
 });
 
 productRouter.get("/:pid", (req, res) => {
