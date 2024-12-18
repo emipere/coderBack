@@ -1,8 +1,10 @@
 import { Schema, model } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
+
 const productSchema = new Schema({
     title: {
         type: String,
-        required: true //Si o si mi usuario va a tener que ingresarlo (atributo requerido)
+        required: true 
     },
     description: {
         type: String,
@@ -33,5 +35,7 @@ const productSchema = new Schema({
         default: []
     }
 })
+
+productSchema.plugin(mongoosePaginate)
 const productModel = model("products", productSchema)
 export default productModel

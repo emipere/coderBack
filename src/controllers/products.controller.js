@@ -1,11 +1,22 @@
 import productModel from "../models/product.model.js";
 export const getProducts = async (req,res) => {
     try {
-        const {limit} = req.query
-        const prods = await productModel.find().limit(limit)
-        console.log(prods);
+        const {limit,page,filter,metFilter,ord} = req.query
+       
+
+        const pag = page != undefined ? page : 1
+        const lim = limit != undefined ? limit : 10
+        const query = metFilter  !== undefined ? {[metFilter]: filter} : {} 
+        const orQuery = ord !== undefined ? {price: ord} : {} 
+
         
-        res.status(200).render('templates/home', {productos: prods, js: 'productos.js', css: 'productos.css'})
+        
+
+
+        const prods = await productModel.paginate(query,{limit: lim, page:pag, orQuery})
+        console.log(prods);
+        res.status(200).send(prods)
+        
     } catch(e) {
         res.status(500).send("Error al consultar productos: ", e)
     }
