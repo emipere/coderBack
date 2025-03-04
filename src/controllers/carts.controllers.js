@@ -66,7 +66,7 @@ export const updateQuantityProductCart = async (req,res)=> {
         const cartId = req.params.cid                          
         const productId = req.params.pid
         const {quantity} = req.body
-        const cart = await cartModel.findOne({_id: cartId}) 
+        const cart = await cartModel.findOne({_id: cartId})
        
         
         const indice = cart.products.findIndex(prod => prod.id_prod._id == productId)

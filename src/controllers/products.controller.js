@@ -10,12 +10,10 @@ export const getProducts = async (req,res) => {
         const orQuery = ord !== undefined ? {price: ord} : {} 
 
         
-        
-
-
         const prods = await productModel.paginate(query,{limit: lim, page:pag, orQuery})
         console.log(prods);
-        res.status(200).send(prods)
+        // res.status(200).send(prods)
+        res.status(200).render('templates/home', {productos: prods, js: 'productos.js', css: 'productos.css'})
         
     } catch(e) {
         res.status(500).send("Error al consultar productos: ", e)

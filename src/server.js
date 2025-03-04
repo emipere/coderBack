@@ -17,8 +17,10 @@ const server = app.listen(PORT, () => {
   console.log("Server on port", PORT);
 });
 
-await mongoose.connect("mongodb+srv://emipereiro:Salu1805mongodbatlas@cluster0.defym.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+await mongoose.connect("mongodb+srv://emipereiro:Salu1805@cluster0.avxgn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"  
+//  mongodb+srv://emipereiro:Salu1805mongodbatlas@cluster0.defym.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 )
+
 .then(() => console.log("BDD conectada"))
 .catch((e) => console.log("Error al conectar con bdd: ", e))
 
@@ -46,7 +48,7 @@ app.use("/upload", multerRouter);
 
 
 app.get('/', (req,res) => {
-  res.status(200).send("Ok")
+  res.status(200).send("Ok se conecto perfecto")
 })
 
 let mensajes = []
