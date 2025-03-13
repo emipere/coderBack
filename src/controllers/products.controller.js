@@ -1,4 +1,5 @@
 import productModel from "../models/product.model.js";
+
 export const getProducts = async (req,res) => {
     try {
         const {limit,page,filter,metFilter,ord} = req.query
