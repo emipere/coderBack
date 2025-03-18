@@ -56,3 +56,12 @@ router.post("/register", passport.authenticate(
 
         }
     })
+
+    router.get("/logout", (req, res) => {
+        res.clearCookie("jwtCookieToken");
+        res.redirect("/users/login");
+    });
+    
+    
+    
+    export default router

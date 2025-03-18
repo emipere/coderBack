@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authToken, passportCall, authorization } from '../path.js'; /*creo que utils es mi path.js*/
+import { passportCall, authorization } from '../path.js'; /*creo que utils es mi path.js*/
 
 const router = Router();
 
@@ -29,3 +29,4 @@ router.get("/",
             });
         });  
     
+        export default router
