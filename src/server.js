@@ -9,26 +9,66 @@ import multerRouter from "./routes/imagenes.routes.js";
 import path from "path"
 import chatRouter from "./routes/chat.routes.js";
 
+// importe esto
+import handlebars from "express-handlebars" 
+import MongoStore from "connect-mongo";
+import session from "express-session";
+import cookieParser from "cookie-parser";
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
+import sessionsRouter from './routes/sessions.router.js'
+import usersViewRouter from './routes/users.views.router.js';
+import dotenv from "dotenv";
+
+dotenv.config()
+
 const app = express();
 const hbs = create ();
-const PORT = 8080;
+const PORT = process.env.PORT_SERVER;
+
 
 const server = app.listen(PORT, () => {
   console.log("Server on port", PORT);
 });
 
-await mongoose.connect("mongodb+srv://emipereiro:Salu1805@cluster0.avxgn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"  
-//  mongodb+srv://emipereiro:Salu1805mongodbatlas@cluster0.defym.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-)
-
+await mongoose.connect (process.env.MONGO_URL)
 .then(() => console.log("BDD conectada"))
 .catch((e) => console.log("Error al conectar con bdd: ", e))
+
+const urlMongo = process.env.MONGO_URL
+app.use(session({
+  store: MongoStore.create({
+      mongoUrl: urlMongo,
+      //  mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+      ttl: 60
+  }),
+  secret: "coderS3cr3t",
+  resave: false,
+  saveUninitialized: true
+}));
 
 const io = new Server(server);
 
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
+
+
+initializePassport();
+app.use(passport.initialize());
+
+
+app.engine('handlebars', handlebars.engine());
+app.set('views', __dirname + '/views');
+app.set('view engine', 'handlebars');
+app.use(express.static(__dirname + '/public'));
+
+
+app.use("/users", usersViewRouter);
+app.use("/api/sessions", sessionsRouter);
+// app.use("/github", githubLoginViewRouter); ver poder agregar github (ver bien la clase)
+
+
 
 app.engine('handlebars', hbs.engine);
 
@@ -38,6 +78,7 @@ app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use("/public", express.static(__dirname + "/public"));
+
 app.use("/api/products", productRouter);
 
 app.use("/api/carts", cartRouter);
