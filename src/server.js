@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import { create } from "express-handlebars";
+// import { create } from "express-handlebars";
 import {Server} from "socket.io"; 
 import { __dirname } from "./path.js";
 import productRouter from "./routes/productos.routes.js";
@@ -20,10 +20,12 @@ import sessionsRouter from './routes/sessions.router.js'
 import usersViewRouter from './routes/users.views.router.js';
 import dotenv from "dotenv";
 
-dotenv.config()
-
 const app = express();
-const hbs = create ();
+
+dotenv.config();
+
+
+// const hbs = create ();
 const PORT = process.env.PORT_SERVER;
 
 
@@ -54,15 +56,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-initializePassport();
-app.use(passport.initialize());
+
+
+
+
 
 
 app.engine('handlebars', handlebars.engine());
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/views')
 app.set('view engine', 'handlebars');
 app.use(express.static(__dirname + '/public'));
 
+app.use(cookieParser("CoderS3cr3tC0d3"));
+
+initializePassport();
+app.use(passport.initialize());
 
 app.use("/users", usersViewRouter);
 app.use("/api/sessions", sessionsRouter);
@@ -70,9 +78,9 @@ app.use("/api/sessions", sessionsRouter);
 
 
 
-app.engine('handlebars', hbs.engine);
+// app.engine('handlebars', hbs.engine);
 
-app.set('view engine', 'handlebars');
+// app.set('view engine', 'handlebars');
 
 
 app.set('views', path.join(__dirname, 'views'));

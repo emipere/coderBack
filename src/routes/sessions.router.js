@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import passport from 'passport';
 import userModel from '../models/user.model.js'
-import { isValidPassword, generateJWToken } from '../path.js' /*creo que el utils es mi path*/
+import { isValidPassword, generateJWToken } from '../path.js' 
 
 const router = Router();
 
@@ -37,7 +37,8 @@ router.post("/register", passport.authenticate(
                 name: `${user.first_name} ${user.last_name}`,
                 email: user.email,
                 age: user.age,
-                role: user.role
+                role: user.role,
+                isAdmin: user.role === "admin"
             }
 
             const access_token = generateJWToken(tokenUser)
