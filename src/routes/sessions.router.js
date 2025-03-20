@@ -16,6 +16,7 @@ router.post("/register", passport.authenticate(
 
     router.get("/fail-register", (req, res) => {
         res.status(401).send({ error: "Failed to process register!" });
+        
     });
 
 
