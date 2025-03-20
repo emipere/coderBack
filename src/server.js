@@ -55,13 +55,6 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-
-
-
-
-
-
-
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views')
 app.set('view engine', 'handlebars');
@@ -72,20 +65,12 @@ app.use(cookieParser("CoderS3cr3tC0d3"));
 initializePassport();
 app.use(passport.initialize());
 
+app.use("/public", express.static(__dirname + "/public"));
+
 app.use("/users", usersViewRouter);
 app.use("/api/sessions", sessionsRouter);
 // app.use("/github", githubLoginViewRouter); ver poder agregar github (ver bien la clase)
 
-
-
-// app.engine('handlebars', hbs.engine);
-
-// app.set('view engine', 'handlebars');
-
-
-app.set('views', path.join(__dirname, 'views'));
-
-app.use("/public", express.static(__dirname + "/public"));
 
 app.use("/api/products", productRouter);
 

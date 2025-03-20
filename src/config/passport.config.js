@@ -34,7 +34,7 @@ const initializePassport = () => {
   passport.use("register", new localStrategy(
       { passReqToCallback: true, usernameField: "email" },
       async (req, username, password, done) => {
-        console.log("userModel", username);
+      
 
         const { first_name, last_name, email, age } = req.body;
         try {
@@ -46,7 +46,7 @@ const initializePassport = () => {
           const user = {
             first_name,
             last_name,
-            username,
+            email,
             age,
             password: createHash(password),
             loggedBy: "App"

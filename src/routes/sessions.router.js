@@ -39,7 +39,7 @@ router.post("/register", passport.authenticate(
                 email: user.email,
                 age: user.age,
                 role: user.role,
-                isAdmin: user.role === "admin"
+                isAdmin: user.role 
             }
 
             const access_token = generateJWToken(tokenUser)

@@ -16,7 +16,7 @@ router.get("/",
     passportCall('jwt'),
     (req, res) => {
         res.render("profile", {
-            user: req.user //->Habilitar para JWT
+            user: req.user 
         });
     });
 
@@ -25,7 +25,7 @@ router.get("/",
         authorization("admin"),
         (req, res) => {
             res.render("admin", {
-                user: req.user //->Habilitar para JWT
+                user: req.user 
             });
         });  
     
