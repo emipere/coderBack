@@ -11,11 +11,14 @@ const schema = new mongoose.Schema({
     },
     age: Number,
     password: String,
-    loggedBy: String,
     role: {
         type: String,
         enum: ['admin', 'user'],
         default: 'user'
+    },
+    cart: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "carts"
     }
 })
 

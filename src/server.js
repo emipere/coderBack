@@ -1,6 +1,5 @@
 import express from "express";
 import mongoose from "mongoose";
-// import { create } from "express-handlebars";
 import {Server} from "socket.io"; 
 import { __dirname } from "./path.js";
 import productRouter from "./routes/productos.routes.js";
@@ -9,7 +8,7 @@ import multerRouter from "./routes/imagenes.routes.js";
 import path from "path"
 import chatRouter from "./routes/chat.routes.js";
 
-// importe esto
+
 import handlebars from "express-handlebars" 
 import MongoStore from "connect-mongo";
 import session from "express-session";
@@ -19,6 +18,7 @@ import initializePassport from "./config/passport.config.js";
 import sessionsRouter from './routes/sessions.router.js'
 import usersViewRouter from './routes/users.views.router.js';
 import dotenv from "dotenv";
+import githubLoginViewRouter from "./routes/github-login.views.router.js";
 
 const app = express();
 
@@ -68,8 +68,10 @@ app.use(passport.initialize());
 app.use("/public", express.static(__dirname + "/public"));
 
 app.use("/users", usersViewRouter);
+
 app.use("/api/sessions", sessionsRouter);
-// app.use("/github", githubLoginViewRouter); ver poder agregar github (ver bien la clase)
+
+app.use("/github", githubLoginViewRouter); 
 
 
 app.use("/api/products", productRouter);

@@ -5,11 +5,36 @@ import { isValidPassword, generateJWToken } from '../path.js'
 
 const router = Router();
 
+router.get("/github", passport.authenticate('github', { scope: ['user:email'] }), async (req, res) => { });
+
+router.get("/githubcallback", passport.authenticate('github', { failureRedirect: '/github/error' }), async (req, res) => {
+    const user = req.user
+    const tokenUser = {
+        name: `${user.first_name} ${user.last_name}`,
+        email: user.email,
+        age: user.age,
+        cart: user.cart,
+        role: user.role,
+    };
+    const access_token = generateJWToken(tokenUser)
+    // console.log("access_token", access_token);
+    
+    res.cookie("jwtCookieToken", access_token, {
+        maxAge: 60000,
+        httpOnly: true,
+    })
+    
+    res.redirect("/users");
+});
+
+
+
+
 
 router.post("/register", passport.authenticate(
     'register', { failureRedirect: '/api/sessions/fail-register' })
     , async (req, res) => {
-        console.log("Registrando nuevo usuario.");
+        // console.log("Registrando nuevo usuario.");
         res.status(201).send({ status: "success", message: "Usuario creado con extito." });
     });
 
@@ -30,7 +55,7 @@ router.post("/register", passport.authenticate(
             if (!user) return res.status(401).json({ message: 'Usuario no encontrado' });
 
             if (!isValidPassword(user, password)) {
-                console.warn("Invalid credentials for user: " + email);
+                // console.warn("Invalid credentials for user: " + email);
                 return res.status(401).send({ status: "error", error: "Credenciales invalidas!!!" });
             }
 
@@ -39,11 +64,11 @@ router.post("/register", passport.authenticate(
                 email: user.email,
                 age: user.age,
                 role: user.role,
-                isAdmin: user.role 
+                isAdmin: user.role === "admin" 
             }
 
             const access_token = generateJWToken(tokenUser)
-            console.log("access_token", access_token);
+            // console.log("access_token", access_token);
 
             res.cookie("jwtCookieToken", access_token, {
                 maxAge: 60000,
@@ -53,7 +78,7 @@ router.post("/register", passport.authenticate(
             res.send({ message: "Login successfull" })
 
         }catch (error){
-            console.error(error);
+            // console.error(error);
             return res.status(500).send({ status: "error", error: "Error interno de la app." });
 
         }
