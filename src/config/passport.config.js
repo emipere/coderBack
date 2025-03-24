@@ -10,6 +10,7 @@ const localStrategy = passportLocal.Strategy;
 const JwtStrategy = jwtStrategy.Strategy;
 const ExtractJWT = jwtStrategy.ExtractJwt;
 
+
 const initializePassport = () => {
   passport.use(
     "github",
@@ -21,11 +22,11 @@ const initializePassport = () => {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-        // console.log(profile._json)
+        
           let user = await userModel.findOne({ email: profile._json.email });
-          // console.log(user);
+          
           if (!user) {
-            // console.warn("User doesn't exists with username: " + profile._json.email);
+           
             const cart = await cartModel.create({ products: [] });
 
             let newUser = {
@@ -56,13 +57,12 @@ const initializePassport = () => {
         secretOrKey: PRIVATE_KEY,
       },
       async (jwt_payload, done) => {
-        // console.log("Entrando a passport Strategy con JWT.");
+        
         try {
-          // console.log("JWT obtenido del payload");
-          // console.log(jwt_payload);
+         
           return done(null, jwt_payload.user);
         } catch (error) {
-          // console.error(error);
+        
           return done(error);
         }
       }
@@ -78,7 +78,7 @@ const initializePassport = () => {
         try {
           const exists = await userModel.findOne({ email: username });
           if (exists) {
-            // console.log("El usuario ya existe.");
+           
             return done(null, false);
           }
           const cart = await cartModel.create({ products: [] });
@@ -109,7 +109,7 @@ const initializePassport = () => {
       let user = await userModel.findById(id);
       done(null, user);
     } catch (error) {
-      // console.error("Error deserializando el usuario: " + error);
+      console.error("Error deserializando el usuario: " + error);
     }
   });
 };

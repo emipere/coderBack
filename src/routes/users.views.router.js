@@ -1,8 +1,5 @@
 import { Router } from "express";
-import {
-  passportCall,
-  authorization,
-} from "../path.js"; /*creo que utils es mi path.js*/
+import { passportCall, authorization } from "../path.js";
 
 const router = Router();
 
