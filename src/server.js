@@ -23,7 +23,7 @@ const app = express();
 
 dotenv.config();
 
-// const hbs = create ();
+
 const PORT = process.env.PORT_SERVER;
 
 const server = app.listen(PORT, () => {

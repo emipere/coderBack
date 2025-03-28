@@ -10,7 +10,6 @@ const localStrategy = passportLocal.Strategy;
 const JwtStrategy = jwtStrategy.Strategy;
 const ExtractJWT = jwtStrategy.ExtractJwt;
 
-
 const initializePassport = () => {
   passport.use(
     "github",
@@ -22,11 +21,9 @@ const initializePassport = () => {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-        
           let user = await userModel.findOne({ email: profile._json.email });
-          
+
           if (!user) {
-           
             const cart = await cartModel.create({ products: [] });
 
             let newUser = {
@@ -38,8 +35,7 @@ const initializePassport = () => {
               cart: cart._id,
             };
             const result = await userModel.create(newUser);
-            user = result
-           
+            user = result;
           }
           return done(null, user);
         } catch (error) {
@@ -57,12 +53,9 @@ const initializePassport = () => {
         secretOrKey: PRIVATE_KEY,
       },
       async (jwt_payload, done) => {
-        
         try {
-         
           return done(null, jwt_payload.user);
         } catch (error) {
-        
           return done(error);
         }
       }
@@ -78,7 +71,6 @@ const initializePassport = () => {
         try {
           const exists = await userModel.findOne({ email: username });
           if (exists) {
-           
             return done(null, false);
           }
           const cart = await cartModel.create({ products: [] });
@@ -112,6 +104,23 @@ const initializePassport = () => {
       console.error("Error deserializando el usuario: " + error);
     }
   });
+
+  passport.use(
+    "current",
+    new JwtStrategy(
+      {
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+        secretOrKey: PRIVATE_KEY,
+      },
+      async (jwt_payload, done) => {
+        try {
+          return done(null, jwt_payload.user);
+        } catch (error) {
+          return done(error);
+        }
+      }
+    )
+  );
 };
 
 export default initializePassport;

@@ -98,7 +98,7 @@ router.get("/logout", (req, res) => {
 
 router.get(
   "/current",
-  passport.authenticate("jwt", { session: false }),
+  passport.authenticate("current", { session: false }),
   (req, res) => {
     res.send(req.user);
   }
