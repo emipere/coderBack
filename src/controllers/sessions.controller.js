@@ -49,7 +49,7 @@ export const failRegister = (req, res) => {
   res.status(401).send({ error: "Failed to process register!" });
 };
 
-export const loginUser = async (req, res) => {
+export const  loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
