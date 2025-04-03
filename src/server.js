@@ -20,20 +20,23 @@ import dotenv from "dotenv";
 import githubLoginViewRouter from "./routes/github-login.views.router.js";
 import petsRouter from './routes/pets.router.js';
 import UsersExtendRouter from "./routes/custom/user.extend.router.js";
+import config from "./config/config.js";
+import processRouter from "./routes/procces.js";
+
 
 const app = express();
 
-dotenv.config();
+// dotenv.config();
 
 
-const PORT = process.env.PORT_SERVER;
+const PORT = config.port;
 
 const server = app.listen(PORT, () => {
   console.log("Server on port", PORT);
 });
 
 await mongoose
-  .connect(process.env.MONGO_URL)
+  .connect(config.mongoUrl)
   .then(() => console.log("BDD conectada"))
   .catch((e) => console.log("Error al conectar con bdd: ", e));
 
@@ -84,6 +87,9 @@ app.use("/api/chat", chatRouter);
 app.use("/upload", multerRouter);
 
 app.use("/api/pets", petsRouter); // <- Es donde vamos a usar las Regex
+
+// process
+app.use("/", processRouter);
 
 const usersExtendRouter = new UsersExtendRouter(); // creamos la instacia
 app.use("/api/extend/users", usersExtendRouter.getRouter()); // <- Agregamos las rutas extendidas
