@@ -18,6 +18,8 @@ import sessionsRouter from "./routes/sessions.router.js";
 import usersViewRouter from "./routes/users.views.router.js";
 import dotenv from "dotenv";
 import githubLoginViewRouter from "./routes/github-login.views.router.js";
+import petsRouter from './routes/pets.router.js';
+import UsersExtendRouter from "./routes/custom/user.extend.router.js";
 
 const app = express();
 
@@ -80,6 +82,12 @@ app.use("/api/carts", cartRouter);
 app.use("/api/chat", chatRouter);
 
 app.use("/upload", multerRouter);
+
+app.use("/api/pets", petsRouter); // <- Es donde vamos a usar las Regex
+
+const usersExtendRouter = new UsersExtendRouter(); // creamos la instacia
+app.use("/api/extend/users", usersExtendRouter.getRouter()); // <- Agregamos las rutas extendidas
+
 
 app.get("/", (req, res) => {
   res.status(200).send("Ok se conecto perfecto");

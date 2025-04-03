@@ -17,8 +17,7 @@ router.get("/", passportCall("jwt"), (req, res) => {
   });
 });
 
-router.get(
-  "/dashboard-admin",
+router.get("/dashboard-admin",
   passportCall("jwt"),
   authorization("admin"),
   (req, res) => {
