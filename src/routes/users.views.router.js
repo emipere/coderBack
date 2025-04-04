@@ -1,30 +1,21 @@
+
+
 import { Router } from "express";
 import { passportCall, authorization } from "../path.js";
+import {LoginView,RegisterView,ProfileView,AdminDashboardView} from "../controllers/users.views.controller.js";
 
 const router = Router();
 
-router.get("/login", (req, res) => {
-  res.render("login");
-});
+router.get("/login", LoginView);
 
-router.get("/register", (req, res) => {
-  res.render("register");
-});
+router.get("/register", RegisterView);
 
-router.get("/", passportCall("jwt"), (req, res) => {
-  res.render("profile", {
-    user: req.user,
-  });
-});
+router.get("/", passportCall("jwt"), ProfileView);
 
 router.get("/dashboard-admin",
-  passportCall("jwt"),
-  authorization("admin"),
-  (req, res) => {
-    res.render("admin", {
-      user: req.user,
-    });
-  }
+    passportCall("jwt"),
+    authorization("admin"),
+    AdminDashboardView
 );
 
 export default router;
