@@ -1,29 +1,21 @@
-import productModel from "../models/product.model.js";
+import { ProductsService } from "../services/services.js";
 
 export const getProducts = async (req,res) => {
     try {
-        const {limit,page,filter,metFilter,ord} = req.query
-       
-
-        const pag = page != undefined ? page : 1
-        const lim = limit != undefined ? limit : 10
-        const query = metFilter  !== undefined ? {[metFilter]: filter} : {} 
-        const orQuery = ord !== undefined ? {price: ord} : {} 
-
-        
-        const prods = await productModel.paginate(query,{limit: lim, page:pag, orQuery})
+             
+        const prods = await ProductsService.getProducts()
         console.log(prods);
-        // res.status(200).send(prods)
+        res.status(200).send(prods)
         res.status(200).render('templates/home', {productos: prods, js: 'productos.js', css: 'productos.css'})
         
     } catch(e) {
         res.status(500).send("Error al consultar productos: ", e)
     }
 }
-export const getProduct = async(req,res) => {
+export const getProductById = async(req,res) => {
     try {
         const idProd = req.params.pid 
-        const prod = await productModel.findById(idProd)
+        const prod = await ProductsService.getProductById(idProd)
         if(prod)
             res.status(200).send(prod)
         else
@@ -35,7 +27,7 @@ export const getProduct = async(req,res) => {
 export const createProduct = async (req,res) => {
     try {
         const product = req.body
-        const respuesta = await productModel.create(product)
+        const respuesta = await ProductsService.createProduct(product)
         console.log(respuesta);
         res.status(201).send("Producto creado correctamente")
     } catch(e) {
@@ -48,7 +40,7 @@ export const updateProduct = async (req,res) => {
     try {
         const idProd = req.params.pid
         const updateProduct = req.body
-        const respuesta = await productModel.findByIdAndUpdate(idProd, updateProduct)
+        const respuesta = await ProductsService.updateProduct(idProd, updateProduct)
         res.status(200).send("Producto actualizado correctamente")
     } catch(e) {
         console.log(e);
@@ -59,7 +51,7 @@ export const updateProduct = async (req,res) => {
 export const deleteProduct = async (req,res) => {
     try {
         const idProd = req.params.pid
-        const respuesta = await productModel.findByIdAndDelete(idProd)
+        const respuesta = await ProductsService.deleteProduct(idProd)
         res.status(200).send("Producto eliminado correctamente")
     } catch(e) {
         res.status(500).send("Error al eliminar producto: ", e)

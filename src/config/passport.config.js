@@ -2,8 +2,8 @@ import passport from "passport";
 import jwtStrategy from "passport-jwt";
 import passportLocal from "passport-local";
 import GitHubStrategy from "passport-github2";
-import userModel from "../models/user.model.js";
-import cartModel from "../models/cart.model.js";
+import userModel from "../services/dao/mongo/models/user.model.js";
+import cartModel from "../services/dao/mongo/models/cart.model.js";
 import { createHash, PRIVATE_KEY, cookieExtractor } from "../path.js";
 
 const localStrategy = passportLocal.Strategy;

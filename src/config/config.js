@@ -37,7 +37,6 @@ export default {
 /* Process configuration
 ===================================== */
 
-// 2do - Listeners
 process.on("exit", code => {
     console.log("Este codigo se ejecuta antes de salir del proceso.");
     console.log("Codigo de salida del proceso: " + code);

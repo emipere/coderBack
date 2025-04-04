@@ -1,4 +1,4 @@
-import cartModel from "../models/cart.model.js";
+import cartModel from "../services/dao/mongo/models/cart.model.js";
 
 
 export const getCart = async (req,res)=> {
