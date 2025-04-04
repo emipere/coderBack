@@ -86,9 +86,8 @@ app.use("/api/chat", chatRouter);
 app.use("/upload", multerRouter);
 
 
-const usersExtendRouter = new UsersExtendRouter(); // creamos la instacia
-app.use("/api/extend/users", usersExtendRouter.getRouter()); // <- Agregamos las rutas extendidas
-
+const usersExtendRouter = new UsersExtendRouter(); 
+app.use("/api/extend/users", usersExtendRouter.getRouter()); 
 
 app.get("/", (req, res) => {
   res.status(200).send("Ok se conecto perfecto");
