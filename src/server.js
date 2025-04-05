@@ -20,6 +20,8 @@ import dotenv from "dotenv";
 import githubLoginViewRouter from "./routes/github-login.views.router.js";
 import UsersExtendRouter from "./routes/custom/user.extend.router.js";
 import config from "./config/config.js";
+import MongoSingleton from "./config/mongodb-singleton.js";
+import cors from "cors";
 
 
 
@@ -64,6 +66,8 @@ app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 app.use(express.static(__dirname + "/public"));
 
+app.use(cors());
+
 app.use(cookieParser("CoderS3cr3tC0d3"));
 
 initializePassport();
@@ -107,3 +111,14 @@ io.on("connection", (socket) => {
     console.log("usuario desconectado:", socket.io);
   });
 });
+
+
+const mongoInstance = async () => {
+  try {
+      await MongoSingleton.getInstance()
+  } catch (error) {
+      console.error(error);
+  }
+}
+mongoInstance() // Conectado con exito a MongoDB usando Moongose.
+

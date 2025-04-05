@@ -24,7 +24,6 @@ console.log("Mode: ", program.opts().mode);/*est aes la manera que accedo a las 
 
 
 export default {
-    // port: process.env.PORT,
     port: program.opts().p || process.env.PORT,
     mongoUrl: process.env.MONGO_URL,
     adminName: process.env.ADMIN_NAME,
@@ -34,8 +33,7 @@ export default {
 
 
 
-/* Process configuration
-===================================== */
+/* Process config */
 
 process.on("exit", code => {
     console.log("Este codigo se ejecuta antes de salir del proceso.");
