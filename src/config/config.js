@@ -20,8 +20,8 @@ dotenv.config({
 
 
 
-// console.log("Options: ", program.opts());
-// console.log("Mode: ", program.opts().mode);/*est aes la manera que accedo a las opciones que le pase por comandos */
+console.log("Options: ", program.opts());
+console.log("Mode: ", program.opts().mode);/*est aes la manera que accedo a las opciones que le pase por comandos */
 
 
 export default {
