@@ -5,9 +5,10 @@ const program = new Command(); //Crea la instancia de comandos de commander.
 
 program
     .option('-d', 'Variable para debug', false)
-    .option('-u, --username <username>', 'Nombre de Usuario', 'No se a declarado ningun usuario')
     .option('-p <port>', 'Puerto del servidor', 8080)
+    .option('--persist <mode>', 'Modo de persistencia', "mongodb")
     .option('--mode <mode>', 'Modo de trabajo', 'development')
+    .option('-u, --username <username>', 'Nombre de Usuario', 'No se a declarado ningun usuario')
 program.parse(); //Parsea los comandos y valida si son correctos.
 
 
@@ -19,15 +20,14 @@ dotenv.config({
 
 
 
-console.log("Options: ", program.opts());
-console.log("Mode: ", program.opts().mode);/*est aes la manera que accedo a las opciones que le pase por comandos */
+// console.log("Options: ", program.opts());
+// console.log("Mode: ", program.opts().mode);/*est aes la manera que accedo a las opciones que le pase por comandos */
 
 
 export default {
     port: program.opts().p || process.env.PORT,
     mongoUrl: process.env.MONGO_URL,
-    adminName: process.env.ADMIN_NAME,
-    adminPassword: process.env.ADMIN_PASSWORD
+    persistence: program.opts().persist,
 }
 
 

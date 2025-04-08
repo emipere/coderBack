@@ -2,7 +2,7 @@ import productModel from "../models/product.model.js";
 
 export default class ProductsService {
     constructor() {
-        console.log("Calling pets model using a service.");
+        
     };
     getProducts = async () => {
         const products = await productModel.find();

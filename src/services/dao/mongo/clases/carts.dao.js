@@ -3,7 +3,7 @@ import cartModel from "../models/cart.model.js";
 
 export default class CartsService {
     constructor(){
-        console.log("Calling users model using a service.");
+       
     };  
     getCarts = async () => {
         const carts = await cartModel.find();

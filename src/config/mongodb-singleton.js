@@ -10,9 +10,7 @@ export default class MongoSingleton {
         this.#connectMongoDB()
     }
 
-
-
-    static getInstance() {
+     static getInstance() {
         if (this.#instance) {
             console.log("Ya existe una conexion a MongoDB");
         } else {
@@ -24,8 +22,11 @@ export default class MongoSingleton {
 
     #connectMongoDB = async () => {
         try {
+            if (!config.mongoUrl) {
+                throw new Error("La URL de conexión a MongoDB no está definida. Verifica tu archivo .env.");
+               }
             await mongoose.connect(config.mongoUrl);
-            console.log("Me conecte con exito a MongoDB usando Moongose.");
+            // console.log("Me conecte con exito a MongoDB usando Moongose.");
         } catch (error) {
             console.error("No se pudo conectar a la BD usando Moongose: " + error);
             process.exit();

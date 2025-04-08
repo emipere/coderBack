@@ -1,11 +1,11 @@
 import express from "express";
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 import { Server } from "socket.io";
 import { __dirname } from "./path.js";
 import productRouter from "./routes/productos.routes.js";
 import cartRouter from "./routes/carritos.routes.js";
 import multerRouter from "./routes/imagenes.routes.js";
-import path from "path";
+// import path from "path";
 import chatRouter from "./routes/chat.routes.js";
 
 import handlebars from "express-handlebars";
@@ -16,11 +16,11 @@ import passport from "passport";
 import initializePassport from "./config/passport.config.js";
 import sessionsRouter from "./routes/sessions.router.js";
 import usersViewRouter from "./routes/users.views.router.js";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 import githubLoginViewRouter from "./routes/github-login.views.router.js";
 import UsersExtendRouter from "./routes/custom/user.extend.router.js";
 import config from "./config/config.js";
-import MongoSingleton from "./config/mongodb-singleton.js";
+// import MongoSingleton from "./config/mongodb-singleton.js";
 import cors from "cors";
 
 
@@ -33,13 +33,10 @@ const app = express();
 const PORT = config.port;
 
 const server = app.listen(PORT, () => {
-  console.log("Server on port", PORT);
+  // console.log("Server on port", PORT);
 });
 
-await mongoose
-  .connect(config.mongoUrl)
-  .then(() => console.log("BDD conectada"))
-  .catch((e) => console.log("Error al conectar con bdd: ", e));
+
 
 const urlMongo = process.env.MONGO_URL;
 app.use(
@@ -113,12 +110,12 @@ io.on("connection", (socket) => {
 });
 
 
-const mongoInstance = async () => {
-  try {
-      await MongoSingleton.getInstance()
-  } catch (error) {
-      console.error(error);
-  }
-}
-mongoInstance() // Conectado con exito a MongoDB usando Moongose.
+// const mongoInstance = async () => {
+//   try {
+//       await MongoSingleton.getInstance()
+//   } catch (error) {
+//       console.error(error);
+//   }
+// }
+// mongoInstance() 
 
