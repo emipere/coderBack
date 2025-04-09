@@ -5,8 +5,8 @@ export const getProducts = async (req,res) => {
              
         const prods = await ProductsService.getProducts()
         console.log(prods);
-        res.status(200).send(prods)
-        res.status(200).render('templates/home', {productos: prods, js: 'productos.js', css: 'productos.css'})
+        res.status(200).json({ status: "success", payload: prods })
+        // res.status(200).render('templates/home', {productos: prods, js: 'productos.js', css: 'productos.css'})
         
     } catch(e) {
         res.status(500).send("Error al consultar productos: ", e)

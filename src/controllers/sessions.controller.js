@@ -2,6 +2,7 @@ import { Router} from "express";
 import passport from "passport";
 import userModel from "../services/dao/mongo/models/user.model.js";
 import { isValidPassword, generateJWToken } from "../path.js";
+import CurrentDto from "../services/dto/current.dto.js";
 
 const router = Router();
 
@@ -93,10 +94,16 @@ export const logoutUser = (req, res) => {
 };
 
 
-export const getCurrentUser =  
-(req, res) => {
-  res.send(req.user);
-};
+export const getCurrentUser = (req, res) => {
+  try {
+    const user = req.user;
+    const userDto = new CurrentDto(user);
+    res.send  (userDto);
+  } catch (error) {
+    res.status(500).send({ status: "error", error: "Error al obtener usuario actual" });
+    
+  };
+  }
 
 
 

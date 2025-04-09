@@ -12,10 +12,6 @@ router.get("/register", RegisterView);
 
 router.get("/", passportCall("jwt"), ProfileView);
 
-router.get("/dashboard-admin",
-    passportCall("jwt"),
-    authorization("admin"),
-    AdminDashboardView
-);
+router.get("/dashboard-admin", passportCall("jwt"), authorization("admin"), AdminDashboardView);
 
 export default router;

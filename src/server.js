@@ -22,6 +22,7 @@ import UsersExtendRouter from "./routes/custom/user.extend.router.js";
 import config from "./config/config.js";
 // import MongoSingleton from "./config/mongodb-singleton.js";
 import cors from "cors";
+import emailRouter from "./routes/email.router.js";
 
 
 
@@ -85,6 +86,10 @@ app.use("/api/carts", cartRouter);
 app.use("/api/chat", chatRouter);
 
 app.use("/upload", multerRouter);
+
+app.use("api/email", emailRouter);
+
+
 
 
 const usersExtendRouter = new UsersExtendRouter(); 

@@ -12,6 +12,7 @@ program
 program.parse(); //Parsea los comandos y valida si son correctos.
 
 
+
 const environment = program.opts().mode;
 
 dotenv.config({
@@ -26,9 +27,10 @@ console.log("Mode: ", program.opts().mode);/*est aes la manera que accedo a las 
 
 export default {
     port: process.env.PORT || program.opts().p,
-    // port:   program.opts().p || process.env.PORT,
     mongoUrl: process.env.MONGO_URL,
     persistence: program.opts().persist,
+    gmailAccount: process.env.GMAIL_ACCOUNT,
+    gmailAppPassword: process.env.GMAIL_APP_PASSWORD,
 }
 
 
