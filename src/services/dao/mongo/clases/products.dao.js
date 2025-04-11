@@ -16,7 +16,7 @@ export default class ProductsService {
         const result = await productModel.create(product);
         return result;
     };
-    updateProduct = async (id,product) => {
+    updateProduct = async (id, product) => {
         const result = await productModel.updateOne({ _id: id },product);
         return result;
     };

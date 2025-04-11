@@ -13,8 +13,8 @@ export default class ProductsRepository {
     createProduct = async (product) => {
        return this.#dao.createProduct(product);
     };
-    updateProduct = async (id,product) => {
-        return this.#dao.updateProduct(id,product);
+    updateProduct = async (id, product) => {
+        return this.#dao.updateProduct(id, product);
     };
     deleteProduct = async (id) => {
        return this.#dao.deleteProduct(id);

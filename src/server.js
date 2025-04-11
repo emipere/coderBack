@@ -1,13 +1,10 @@
 import express from "express";
-// import mongoose from "mongoose";
 import { Server } from "socket.io";
 import { __dirname } from "./path.js";
 import productRouter from "./routes/productos.routes.js";
 import cartRouter from "./routes/carritos.routes.js";
 import multerRouter from "./routes/imagenes.routes.js";
-// import path from "path";
 import chatRouter from "./routes/chat.routes.js";
-
 import handlebars from "express-handlebars";
 import MongoStore from "connect-mongo";
 import session from "express-session";
@@ -16,11 +13,9 @@ import passport from "passport";
 import initializePassport from "./config/passport.config.js";
 import sessionsRouter from "./routes/sessions.router.js";
 import usersViewRouter from "./routes/users.views.router.js";
-// import dotenv from "dotenv";
 import githubLoginViewRouter from "./routes/github-login.views.router.js";
 import UsersExtendRouter from "./routes/custom/user.extend.router.js";
 import config from "./config/config.js";
-// import MongoSingleton from "./config/mongodb-singleton.js";
 import cors from "cors";
 import emailRouter from "./routes/email.router.js";
 
@@ -28,13 +23,11 @@ import emailRouter from "./routes/email.router.js";
 
 const app = express();
 
-// dotenv.config();
 
 
 const PORT = config.port;
 
 const server = app.listen(PORT, () => {
-  // console.log("Server on port", PORT);
 });
 
 
@@ -44,7 +37,6 @@ app.use(
   session({
     store: MongoStore.create({
       mongoUrl: urlMongo,
-      //  mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
       ttl: 60,
     }),
     secret: "coderS3cr3t",
@@ -114,13 +106,4 @@ io.on("connection", (socket) => {
   });
 });
 
-
-// const mongoInstance = async () => {
-//   try {
-//       await MongoSingleton.getInstance()
-//   } catch (error) {
-//       console.error(error);
-//   }
-// }
-// mongoInstance() 
 

@@ -26,7 +26,7 @@ export default class MongoSingleton {
                 throw new Error("La URL de conexión a MongoDB no está definida. Verifica tu archivo .env.");
                }
             await mongoose.connect(config.mongoUrl);
-            // console.log("Me conecte con exito a MongoDB usando Moongose.");
+            console.log("Me conecte con exito a MongoDB usando Moongose.");
         } catch (error) {
             console.error("No se pudo conectar a la BD usando Moongose: " + error);
             process.exit();
