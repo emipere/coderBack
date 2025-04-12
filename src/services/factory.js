@@ -5,7 +5,7 @@ import config from '../config/config.js';
 
 let cartsDao
 let productsDao
-
+let ticketsDao
 
 async function initializeMongoService() {
     try {
@@ -26,8 +26,10 @@ async function initializeServices() {
 
         const { default: CartsService } = await import("./dao/mongo/clases/carts.dao.js")
         const { default: ProductsService } = await import("./dao/mongo/clases/products.dao.js")
+        const { default: TicketsService } = await import("./dao/mongo/clases/ticket.dao.js")
         cartsDao = new CartsService() // se crea isntacia de la clase
         productsDao = new ProductsService() // se crea isntacia de la clase
+        ticketsDao = new TicketsService() // se crea isntacia de la clase
               
         break;
 
@@ -35,4 +37,4 @@ async function initializeServices() {
         throw new Error(`Persistencia "${config.persistence}" no soportada.`);
 }}
 await initializeServices()
-export default { cartsDao, productsDao };
+export default { cartsDao, productsDao, ticketsDao };

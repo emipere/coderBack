@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getCarts, getCartById, createCart, insertProductCart,updateProductsCart,updateQuantityProductCart,deleteCart,deleteProductCart,ticketCartController } from "../controllers/carts.controllers.js";
+import { getCarts, getCartById, createCart, insertProductCart,updateProductsCart,updateQuantityProductCart,deleteCart,deleteProductCart,purchaseCart } from "../controllers/carts.controllers.js";
 import { passportCall, authorization } from "../path.js";
 
 const cartRouter = Router()
@@ -14,6 +14,7 @@ cartRouter.put('/:cid/products/:pid', updateQuantityProductCart)
 cartRouter.delete('/:cid', deleteCart)
 cartRouter.delete('/:cid/products/:pid', passportCall("jwt"), authorization("admin"), deleteProductCart) 
 
-cartRouter.get('/:cid/purchase', passportCall("jwt"), authorization("user"), ticketCartController) 
+
+cartRouter.get('/:cid/purchase', passportCall("jwt"), authorization("user"),purchaseCart)
 
 export default cartRouter;

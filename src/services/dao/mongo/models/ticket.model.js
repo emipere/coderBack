@@ -6,7 +6,6 @@ const ticketSchema = new mongoose.Schema({
   code: {
     type: String,
     unique: true,
-    required: true,
     default: () => `TICKET-${Date.now()}-${Math.floor(Math.random() * 10000)}`,
   },
   purchase_datetime: {

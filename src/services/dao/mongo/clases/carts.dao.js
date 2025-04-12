@@ -8,13 +8,22 @@ export default class CartsService {
     return carts;
   };
   getCartById = async (cid) => {
-    const cart = await cartModel.findOne({ _id: cid }).populate("products.id_prod").lean();
+    const cart = await cartModel.findOne({ _id: cid });
     return cart;
-  }
+  };
   createCart = async (cart) => {
     let result = await cartModel.create(cart);
     return result;
   };
+
+  
+//   no se si esta bien esto
+  updateCart = async (cid, updatedCart) => {
+    let actualizaCart = await cartModel.findByIdAndUpdate(cid, updatedCart, { new: true });
+    return actualizaCart;
+};
+
+
   insertProductCart = async (cid, pid) => {
     try {
       // Busca el carrito por su ID

@@ -18,5 +18,11 @@ export default class ProductsRepository {
     };
     deleteProduct = async (id) => {
        return this.#dao.deleteProduct(id);
-    }
+    };
+    checkStock = async (pid) => {
+        return this.#dao.checkStock(pid);
+    };
+    reduceStock = async (pid, quantity) => {
+        return this.#dao.reduceStock(pid, quantity);
+    };
 }

@@ -23,5 +23,26 @@ export default class ProductsService {
     deleteProduct = async (id) => {
         const result = await productModel.deleteOne ({ _id: id });
         return result;
-    }
+    };
+
+    checkStock = async (pid) => {
+        const result = await productModel.findOne({ _id: pid });
+        console.log(result.stock);
+        if (!result) {
+            return false;
+        }
+        return result.stock;
+  };
+    
+    reduceStock = async (pid, quantity) => {
+        const product = await productModel.findById(pid);
+        if (!product) throw new Error("Producto no encontrado");
+        if (product.stock < quantity) throw new Error("Stock insuficiente");
+        product.stock -= quantity;
+        await product.save();
+
+    };
+
+
 };
+

@@ -12,6 +12,15 @@ export default class CartsRepository {
     createCart = async (cart) => {
         return this.#dao.createCart(cart);
     };
+
+    
+    // no se si hice bien esto
+    updateCart = async (cid, updatedCart) => {
+        return this.#dao.updateCart(cid, updatedCart);
+    };
+
+
+
     insertProductCart = async (cid, pid) => {
        return this.#dao.insertProductCart(cid, pid);
     };
@@ -27,7 +36,7 @@ export default class CartsRepository {
     deletecart = async (cartId) => {
         return this.#dao.deletecart(cartId);
     };
-    generateTicketOrder = async (amount, purchaser) => {
-        return this.#dao.generateTicketOrder(amount, purchaser);
+    generateTicket = async (amount, purchaser) => {
+        return this.#dao.generateTicket(amount, purchaser);
     };
 };
