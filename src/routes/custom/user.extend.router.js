@@ -28,25 +28,15 @@ export default class UsersExtendRouter extends CustomRouter {
       const { email, password } = req.body;
       try {
         const user = await userService.findByUsername(email);
-        console.log("Usuario encontrado para login:");
-        console.log(user);
+        // console.log("Usuario encontrado para login:");
+        // console.log(user);
         if (!user) {
-          console.warn("User doesn't exists with username: " + email);
-          return res
-            .status(202)
-            .send({
-              error: "Not found",
-              message: "Usuario no encontrado con username: " + email,
-            });
+          // console.warn("User doesn't exists with username: " + email);
+          return res.status(202).send({ error: "Not found", message: "Usuario no encontrado con username: " + email });
         }
         if (!isValidPassword(user, password)) {
           console.warn("Invalid credentials for user: " + email);
-          return res
-            .status(401)
-            .send({
-              status: "error",
-              error: "El usuario y la contraseña no coinciden!",
-            });
+          return res.status(401).send({status: "error", error: "El usuario y la contraseña no coinciden!" });
         }
         const tokenUser = {
           name: `${user.first_name} ${user.last_name}`,
@@ -63,9 +53,7 @@ export default class UsersExtendRouter extends CustomRouter {
         });
       } catch (error) {
         console.error(error);
-        return res
-          .status(500)
-          .send({ status: "error", error: "Error interno de la applicacion." });
+        return res.status(500).send({ status: "error", error: "Error interno de la applicacion." });
       }
     });
 
@@ -88,12 +76,10 @@ export default class UsersExtendRouter extends CustomRouter {
         password: createHash(password),
       };
       const result = await userService.save(user);
-      res
-        .status(201)
-        .send({
+      res.status(201).send({
           status: "success",
           message: "Usuario creado con extito con ID: " + result.id,
-        });
+      });
     });
   }
 }

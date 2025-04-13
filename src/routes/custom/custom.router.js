@@ -14,8 +14,8 @@ export default class CustomRouter {
     init() { }; //Esta inicialilzacion se usa para las clases heredadas.
 
     get(path, policies, ...callbacks) {
-        console.log("Entrando por GET a custom router con Path: " + path);
-        console.log(policies);
+        // console.log("Entrando por GET a custom router con Path: " + path);
+        // console.log(policies);
         this.router.get(path,
             this.handlePolicies(policies),
             this.generateCustomResponses,
@@ -44,15 +44,15 @@ export default class CustomRouter {
     };
 
     handlePolicies = policies => (req, res, next) => {
-        console.log("Politicas a evaluar:");
-        console.log(policies);
+        // console.log("Politicas a evaluar:");
+        // console.log(policies);
         //Validar si tiene acceso publico:
         if (policies[0] === "PUBLIC") return next(); //Puede entrar cualquiera 
 
        
         const authHeader = req.headers.authorization;
-        console.log("Token present in header auth:");
-        console.log(authHeader);
+        // console.log("Token present in header auth:");
+        // console.log(authHeader);
         if (!authHeader) {
             return res.status(401).send({ error: "User not authenticated or missing token." });
         }

@@ -141,25 +141,21 @@ export const purchaseCart = async (req, res) => {
     for (const item of cart.products) {
       const product = await ProductsService.getProductById(item.id_prod);
       const stock = await ProductsService.checkStock(item.id_prod);
-    //  console.log("Producto:", product);
-    //  console.log("Stock:", stock);
-      // Verificar si hay suficiente stock
+
       if (stock >= item.quantity) {
-        // Reducir el stock del producto
         await ProductsService.reduceStock(item.id_prod, item.quantity);
         purchasedProducts.push({
-          product: product,
           quantity: item.quantity,
           price: product.price,
-        }); 
+          product: product,
+        });
+        console.log("Productos comprados product:" + purchasedProducts.products.product);
+        return purchasedProducts;
       } else {
         notPurchasedProducts.push(item);
       }
-     console.log("Stock:", stock);
-  
-      return purchasedProducts;
     }
-   
+
     if (purchasedProducts.length > 0) {
       const amount = purchasedProducts.reduce((total, item) => {
         if (!item.product || typeof item.product.price !== "number") {
@@ -169,26 +165,21 @@ export const purchaseCart = async (req, res) => {
           console.log("Total acumulado hasta ahora:", total);
           return total;
         }
-        return total + item.price * item.quantity;
+        return total + product.price * item.quantity;
       }, 0);
       console.log(purchaser);
       const ticket = await TicketsService.generateTicket(amount, purchaser);
-    return ticket;
+      return ticket;
     }
-      
 
+    console.log("Ticket generado:", ticket);
 
-      console.log("Ticket generado:", ticket);
-      
     // Actualizar el carrito con los productos no comprados
     cart.products = notPurchasedProducts;
     await CartsService.updateCart(cid, cart);
 
     // Responder con los productos no comprados
-    res.status(200).json({
-      message: ticket ? "Compra procesada" : "No se realizaron compras",
-      notPurchasedProducts: notPurchasedProducts.map((p) => p.id_prod),
-    });
+    res.status(200).json({ message: ticket ? "Compra procesada" : "No se realizaron compras", notPurchasedProducts: notPurchasedProducts.map((p) => p.id_prod) });
   } catch (error) {
     console.error("Error en purchaseCart:", error);
     res.status(500).json({ message: "Error al procesar la compra", error });
