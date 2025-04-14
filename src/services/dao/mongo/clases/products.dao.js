@@ -31,10 +31,9 @@ export default class ProductsService {
     };
     reduceStock = async (pid, quantity) => {
         const product = await productModel.findById(pid);
-        // if (!product) throw new Error("Producto no encontrado");
+        if (!product) throw new Error("Producto no encontrado");
         if (product.stock < quantity) throw new Error("Stock insuficiente");
         product.stock -= quantity;
         await product.save();
     };
 };
-

@@ -13,8 +13,8 @@ export const getCarts = async (req, res) => {
 };
 
 export const getCartById = async (req, res) => {
-  const { cid } = req.params;
   try {
+    const { cid } = req.params;
     const cartById = await CartsService.getCartById(cid);
     res.status(200).json(cartById);
   } catch (error) {
@@ -36,7 +36,6 @@ export const createCart = async (req, res) => {
 export const insertProductCart = async (req, res) => {
   try {
     const { cid, pid } = req.params;
-    console.log(cid, pid);
     const result = await CartsService.insertProductCart(cid, pid);
 
     if (!result) {
@@ -130,7 +129,6 @@ export const purchaseCart = async (req, res) => {
 
     // Obtener el carrito por ID
     const cart = await CartsService.getCartById(cid);
-
     if (!cart) {
       return res.status(404).json({ message: "Carrito no encontrado" });
     }
@@ -142,44 +140,48 @@ export const purchaseCart = async (req, res) => {
       const product = await ProductsService.getProductById(item.id_prod);
       const stock = await ProductsService.checkStock(item.id_prod);
 
-      if (stock >= item.quantity) {
-        await ProductsService.reduceStock(item.id_prod, item.quantity);
+      if (stock > 0) {
+        const quantityToBuy = Math.min(stock, item.quantity);
+        await ProductsService.reduceStock(item.id_prod, quantityToBuy);
+
         purchasedProducts.push({
-          quantity: item.quantity,
+          quantity: quantityToBuy,
           price: product.price,
           product: product,
         });
-        console.log("Productos comprados product:" + purchasedProducts.products.product);
-        return purchasedProducts;
+        if (quantityToBuy < item.quantity) {
+          notPurchasedProducts.push({
+            id_prod: item.id_prod,
+            quantity: item.quantity - quantityToBuy,
+          });
+        }
       } else {
-        notPurchasedProducts.push(item);
+        notPurchasedProducts.push({
+          id_prod: item.id_prod,
+          quantity: item.quantity,
+        });
       }
     }
-
-    if (purchasedProducts.length > 0) {
-      const amount = purchasedProducts.reduce((total, item) => {
-        if (!item.product || typeof item.product.price !== "number") {
-          console.error(
-            `Producto inválido o sin precio: ${JSON.stringify(item.product)}`
-          );
-          console.log("Total acumulado hasta ahora:", total);
-          return total;
-        }
-        return total + product.price * item.quantity;
-      }, 0);
-      console.log(purchaser);
-      const ticket = await TicketsService.generateTicket(amount, purchaser);
-      return ticket;
-    }
-
-    console.log("Ticket generado:", ticket);
-
     // Actualizar el carrito con los productos no comprados
     cart.products = notPurchasedProducts;
-    await CartsService.updateCart(cid, cart);
+    if (notPurchasedProducts.length > 0) {
+     await CartsService.updateCart(cid, { products: notPurchasedProducts });
+    } else {
+     await CartsService.deleteCart(cid);
+    }
 
-    // Responder con los productos no comprados
-    res.status(200).json({ message: ticket ? "Compra procesada" : "No se realizaron compras", notPurchasedProducts: notPurchasedProducts.map((p) => p.id_prod) });
+    const total = purchasedProducts.reduce((total, item) => {
+      if (!item.product || typeof item.price !== "number") {
+        console.error(`Producto inválido o sin precio: ${JSON.stringify(item.product)}`);
+        return total;
+      }
+      return total + item.product.price * item.quantity;
+    }, 0);
+
+    const amount = total;
+    const ticket = await TicketsService.generateTicket(amount, purchaser);
+
+    res.status(200).json({ message: "Compra procesada", ticket: ticket, notPurchasedProducts: notPurchasedProducts.map((p) => ({ id_prod: p.id_prod, quantity: p.quantity })) });
   } catch (error) {
     console.error("Error en purchaseCart:", error);
     res.status(500).json({ message: "Error al procesar la compra", error });

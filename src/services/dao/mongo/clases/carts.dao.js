@@ -15,15 +15,10 @@ export default class CartsService {
     let result = await cartModel.create(cart);
     return result;
   };
-
-  
-//   no se si esta bien esto
   updateCart = async (cid, updatedCart) => {
-    let actualizaCart = await cartModel.findByIdAndUpdate(cid, updatedCart, { new: true });
+    const actualizaCart = await cartModel.updateOne({ _id: cid }, { updatedCart });
     return actualizaCart;
-};
-
-
+  };
   insertProductCart = async (cid, pid) => {
     try {
       // Busca el carrito por su ID
@@ -66,20 +61,18 @@ export default class CartsService {
     return await result.save();
   };
 
-  deleteCart = async (cartId) => {
-    const result = await cartModel.updateOne({ _id: cartId }, { products: [] });
-
+  deleteCart = async (cid) => {
+    const result = await cartModel.updateOne({ _id: cid }, { products: [] });
+    console.log(result);
     return result;
   };
 
   generateTicketOrder = async (amount, purchaser) => {
-    console.log("NO SE ROMPIÓ");
     const ticket = await ticketModel.create({
       purchase_datetime: new Date(),
       amount,
       purchaser,
     });
-    console.log("SI SE ROMPIÓ");
     return ticket;
   }
 }
