@@ -7,18 +7,22 @@ export default class CartsService {
     const carts = await cartModel.find().populate("products.id_prod").lean();
     return carts;
   };
+
   getCartById = async (cid) => {
     const cart = await cartModel.findOne({ _id: cid });
     return cart;
   };
+
   createCart = async (cart) => {
     let result = await cartModel.create(cart);
     return result;
   };
+
   updateCart = async (cid, updatedCart) => {
     const actualizaCart = await cartModel.updateOne({ _id: cid }, { updatedCart });
     return actualizaCart;
   };
+
   insertProductCart = async (cid, pid) => {
     try {
       // Busca el carrito por su ID
@@ -40,10 +44,12 @@ export default class CartsService {
       throw error;
     }
   };
+
   updateProductsCart = async (cartId, product) => {
     const result = await cartModel.updateOne({ _id: cartId }, { product });
     return result;
   };
+  
   updateQuantityProductCart = async (cartId, productId) => {
     const result = await cartModel.findOne({ _id: cartId });
     const product = result.products.find((prod) => prod.id_prod === productId);

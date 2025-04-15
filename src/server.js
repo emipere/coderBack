@@ -28,8 +28,6 @@ const PORT = config.port;
 const server = app.listen(PORT, () => {
 });
 
-
-
 const urlMongo = process.env.MONGO_URL;
 app.use(
   session({
@@ -50,8 +48,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.engine("handlebars", handlebars.engine());
+
 app.set("views", __dirname + "/views");
+
 app.set("view engine", "handlebars");
+
 app.use(express.static(__dirname + "/public"));
 
 app.use(cors());
@@ -78,8 +79,6 @@ app.use("/api/chat", chatRouter);
 app.use("/upload", multerRouter);
 
 app.use("api/email", emailRouter);
-
-
 
 
 const usersExtendRouter = new UsersExtendRouter(); 

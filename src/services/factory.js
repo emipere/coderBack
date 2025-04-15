@@ -27,9 +27,9 @@ async function initializeServices() {
         const { default: CartsService } = await import("./dao/mongo/clases/carts.dao.js")
         const { default: ProductsService } = await import("./dao/mongo/clases/products.dao.js")
         const { default: TicketsService } = await import("./dao/mongo/clases/ticket.dao.js")
-        cartsDao = new CartsService() // se crea isntacia de la clase
-        productsDao = new ProductsService() // se crea isntacia de la clase
-        ticketsDao = new TicketsService() // se crea isntacia de la clase
+        cartsDao = new CartsService() 
+        productsDao = new ProductsService() 
+        ticketsDao = new TicketsService() 
               
         break;
 

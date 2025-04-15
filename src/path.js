@@ -15,7 +15,7 @@ export default __dirname;
 export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
 export const isValidPassword = (user, password) => {
-    // console.log(`Datos a validar: user-password: ${user.password}, password: ${password}`);
+
     return bcrypt.compareSync(password, user.password);
 }
 
@@ -28,8 +28,7 @@ export const generateJWToken = (user) => {
 export const passportCall = (strategy) => {
 
     return async (req, res, next) => {
-        // console.log("Entrando a llamar strategy: ");
-        // console.log(strategy);
+        
 
         passport.authenticate(strategy, function (err, user, info) {
             if (err) return next(err);
@@ -37,8 +36,7 @@ export const passportCall = (strategy) => {
                 return res.status(401).send({ error: info.messages ? info.messages : info.toString() })
             }
 
-            // console.log("Usuario obtenido del strategy: ");
-            // console.log(user);
+            
             req.user = user;
 
             next()
@@ -49,18 +47,14 @@ export const passportCall = (strategy) => {
 
 export const cookieExtractor = req => {
     let token = null;
-    // console.log("CookieExtractor");
-    // console.log(req);
+    
 
 
     if (req && req.cookies) {
-        // console.log("Cookies presentes: ");
-        // console.log(req.cookies);
+        
         token = req.cookies['jwtCookieToken'];
 
 
-        // console.log("Token obtenido desde Cookie:");
-        // console.log(token);
     }
 
     return token;
