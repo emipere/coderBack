@@ -23,8 +23,6 @@ import emailRouter from "./routes/email.router.js";
 
 const app = express();
 
-
-
 const PORT = config.port;
 
 const server = app.listen(PORT, () => {

@@ -6,12 +6,19 @@ const cartRouter = Router()
 
 
 cartRouter.get('/', getCarts);
+
 cartRouter.get('/:cid', getCartById);
+
 cartRouter.post('/', createCart);
+
 cartRouter.post('/:cid/products/:pid', insertProductCart);
+
 cartRouter.put('/:cid', passportCall("jwt"), authorization("admin"), updateProductsCart) 
+
 cartRouter.put('/:cid/products/:pid', updateQuantityProductCart)  
+
 cartRouter.delete('/:cid', deleteCart)
+
 cartRouter.delete('/:cid/products/:pid', passportCall("jwt"), authorization("admin"), deleteProductCart) 
 
 
